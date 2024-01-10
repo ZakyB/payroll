@@ -36,3 +36,28 @@ class DBConnector:
 
         employees = [Employee(*row) for row in cursor.fetchall()]
         return employees
+    
+    def add_paystub(self, paystub):
+        try:
+            cursor = self.cnx.cursor()
+            add_paystub_query = ("INSERT INTO paystubs "
+                                 "(employee_id, total_hours_worked, day_hours, night_hours, holiday_day_hours, holiday_night_hours, number_of_services, month_year) "
+                                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+            paystub_data = (paystub.employee_id, paystub.total_hours_worked, paystub.day_hours, paystub.night_hours, paystub.holiday_day_hours, paystub.holiday_night_hours, paystub.number_of_services, paystub.month_year)
+            cursor.execute(add_paystub_query, paystub_data)
+            self.cnx.commit()
+            cursor.close()
+        except mysql.connector.Error as err:
+            print(f"Something went wrong: {err}")
+
+    def update_paystub(self, paystub):
+        try:
+            cursor = self.cnx.cursor()
+            update_paystub_query = ("UPDATE paystubs SET total_hours_worked = %s, day_hours = %s, night_hours = %s, holiday_day_hours = %s, holiday_night_hours = %s, number_of_services = %s, month_year = %s "
+                                    "WHERE id = %s")
+            paystub_data = (paystub.total_hours_worked, paystub.day_hours, paystub.night_hours, paystub.holiday_day_hours, paystub.holiday_night_hours, paystub.number_of_services, paystub.month_year, paystub.id)
+            cursor.execute(update_paystub_query, paystub_data)
+            self.cnx.commit()
+            cursor.close()
+        except mysql.connector.Error as err:
+            print(f"Something went wrong: {err}")
