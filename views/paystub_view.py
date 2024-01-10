@@ -1,8 +1,9 @@
 import tkinter as tk
 
 class PayStubView(tk.Frame):
-    def __init__(self, master=None, **kwargs):
+    def __init__(self, master=None, window=None, **kwargs):
         super().__init__(master, **kwargs)
+        self.window = window
         self.grid()
 
         self.lbl_employee_id = tk.Label(self, text="Employee ID: ")
@@ -30,8 +31,7 @@ class PayStubView(tk.Frame):
         state = 'normal' if editable else 'readonly'
 
         if editable:
-        
-            # Create Entry widgets for each field
+
             self.entry_employee_id = tk.Entry(self, state=state)
             self.entry_total_hours_worked = tk.Entry(self, state=state)
             self.entry_day_hours = tk.Entry(self, state=state)
@@ -40,7 +40,6 @@ class PayStubView(tk.Frame):
             self.entry_holiday_night_hours = tk.Entry(self, state=state)
             self.entry_number_of_services = tk.Entry(self, state=state)
 
-            # If a paystub is provided, fill the Entry widgets with its details
             if paystub:
                 self.entry_employee_id.insert(0, paystub.employee_id)
                 self.entry_total_hours_worked.insert(0, paystub.total_hours_worked)
@@ -50,7 +49,6 @@ class PayStubView(tk.Frame):
                 self.entry_holiday_night_hours.insert(0, paystub.holiday_night_hours)
                 self.entry_number_of_services.insert(0, paystub.number_of_services)
 
-            # Place the Entry widgets on the grid
             self.entry_employee_id.grid(row=1, column=1)
             self.entry_total_hours_worked.grid(row=2, column=1)
             self.entry_day_hours.grid(row=3, column=1)
